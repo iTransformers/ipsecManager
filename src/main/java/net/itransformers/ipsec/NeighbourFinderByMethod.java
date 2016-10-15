@@ -57,7 +57,6 @@ public class NeighbourFinderByMethod extends JPanel implements RightClickHandler
 
         TopologyManagerFrame viewer = (TopologyManagerFrame) parent;
         final GraphViewerPanel viewerPanel = (GraphViewerPanel) viewer.getTabbedPane().getSelectedComponent();
-        final MyVisualizationViewer vv = (MyVisualizationViewer) viewerPanel.getVisualizationViewer();
         Graph currentGraph = viewerPanel.getCurrentGraph();
         //Keep count of the neighbours
         System.out.println(v);
