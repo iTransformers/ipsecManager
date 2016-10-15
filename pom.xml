@@ -4,7 +4,7 @@
 
     <groupId>net.itransformers</groupId>
     <artifactId>ipsecManager</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
     <url>https://github.com/iTransformers/ipsecManager</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -52,7 +52,7 @@
         <connection>scm:git:ssh://git@github.com:iTransformers/ipsecManager.git</connection>
         <developerConnection>scm:git:ssh://git@github.com:iTransformers/ipsecManager.git</developerConnection>
         <url>https://github.com/iTransformers/ipsecManager.git</url>
-        <tag>${project.artifactId}-${project.version}-r${buildNumber}</tag>
+        <tag>ipsecManager-1.1</tag>
   </scm>
 
     <dependencies>
@@ -274,7 +274,7 @@
                 </executions>
                 <configuration>
                     <shortRevisionLength>5</shortRevisionLength>
-                    <doCheck>true</doCheck>
+                    <doCheck>false</doCheck>
                     <doUpdate>true</doUpdate>
                 </configuration>
             </plugin>
