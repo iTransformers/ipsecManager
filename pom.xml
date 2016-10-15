@@ -4,7 +4,7 @@
 
     <groupId>net.itransformers</groupId>
     <artifactId>ipsecManager</artifactId>
-    <version>1.1</version>
+    <version>1.1-SNAPSHOT</version>
     <url>https://github.com/iTransformers/ipsecManager</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
