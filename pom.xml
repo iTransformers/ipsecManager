@@ -51,7 +51,7 @@
     <scm>
         <connection>scm:git:git://github.com/iTransformers/ipsecManager.git</connection>
         <developerConnection>scm:git:git@github.com:iTransformers/ipsecManager.git</developerConnection>
-        <url>https://github.com/iTransformers/ipsecManager.git</url>
+        <url>scm:git:ssh://git@github.com/iTransformers/ipsecManager.git</url>
       <tag>ipsecManager-1.0</tag>
   </scm>
 
