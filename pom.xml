@@ -52,7 +52,7 @@
         <connection>scm:git:git://github.com/iTransformers/ipsecManager.git</connection>
         <developerConnection>scm:git:git@github.com:iTransformers/ipsecManager.git</developerConnection>
         <url>scm:git:ssh://git@github.com/iTransformers/ipsecManager.git</url>
-      <tag>ipsecManager-1.0</tag>
+        <tag>${project.artifactId}-${project.version}-r${buildNumber</tag>
   </scm>
 
     <dependencies>
