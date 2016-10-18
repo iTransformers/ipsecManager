@@ -1,6 +1,9 @@
 
 package net.itransformers.ipsec;
 
+import net.itransformers.resourcemanager.ResourceManager;
+import net.itransformers.topologyviewer.rightclick.impl.ResourceResolver;
+
 import javax.swing.*;
 import java.awt.*;
 import java.beans.PropertyChangeEvent;
@@ -15,26 +18,34 @@ import java.util.concurrent.ExecutionException;
  */
 
 public class ChangeIPSecKeyHandler extends NeighbourFinderByMethod {
-    boolean whichrouter=false;
-    //We need the neighbours before connecting to them
-
 
     ChangeIPSecKeyWorker worker;
     private ProgressMonitor progressMonitor;
+    List<String> userInput = null;
+
+    public ChangeIPSecKeyHandler(ResourceManager resourceManager, ResourceResolver resourceResolver) {
+        super(resourceManager, resourceResolver);
+    }
 
     @Override
     protected String performIPSecAction(IPsecPair[] ipsecpair) throws IOException {
-        //If this is first run we want to save the old key before generating new ones
-        List<String> userInput = firstTimeConfigurationCheck(ipsecpair);
+
+        String userAnswer = getUserAnswer();
+        if(userAnswer == "Yes") {
+            userInput = firstTimeConfigurationCheck(ipsecpair);
+        }
+        else if(userAnswer == ""){
+            return"";
+        }
 
         progressMonitor = new ProgressMonitor(this, "Running routers", "", 0, 100);
 
         progressMonitor.setMillisToPopup(0);
-        worker = new ChangeIPSecKeyWorker(ipsecpair, progressMonitor,userInput);
+        worker = new ChangeIPSecKeyWorker(ipsecpair, progressMonitor, userInput);
         worker.addPropertyChangeListener(this);
         worker.execute();
-
         return "";
+
     }
 
     private void printMessageToScreen(String message) {
@@ -54,38 +65,44 @@ public class ChangeIPSecKeyHandler extends NeighbourFinderByMethod {
         frame.getContentPane().add("Center",text);
         frame.setVisible(true);
     }
-
+    private String getUserAnswer(){
+        String userAnswer = "";
+        int reply = JOptionPane.showConfirmDialog(null, "First time configurtion?", "IPsec Key change",  JOptionPane.YES_NO_OPTION);
+        if (reply == JOptionPane.YES_OPTION) {
+            userAnswer = "Yes";
+        }
+        if (reply == JOptionPane.NO_OPTION) {
+            userAnswer = "No";
+        }
+        if (reply == JOptionPane.CANCEL_OPTION) {
+            userAnswer = "Cancel";
+        }
+        return userAnswer;
+    }
 
     private List<String> firstTimeConfigurationCheck(IPsecPair[] ipsecpair) {
 
-        int reply = JOptionPane.showConfirmDialog(null, "First time configurtion?", "Close?",  JOptionPane.YES_NO_OPTION);
+        userInput = new ArrayList<>();
+        for(int i = 0; i < ipsecpair.length; i++)
+        {
+            if (ipsecpair[i] != null) {
+                String message = ipsecpair[i].toString();
 
-        List<String> userInput = null;
+                JPasswordField p = new JPasswordField(5);
+                JLabel label  = new JLabel();
+                label.setText(message);
+                p.setEchoChar('*');
 
-        if (reply == JOptionPane.YES_OPTION) {
+                JPanel input = new JPanel();
+                input.setLayout(new BoxLayout(input, BoxLayout.Y_AXIS));
+                input.add(new JLabel("Please input current key"));
+                input.add(Box.createVerticalStrut(25));
+                input.add(label);
+                input.add(Box.createVerticalStrut(10));
+                input.add(p);
 
-            userInput = new ArrayList<>();
-            for(int i = 0; i < ipsecpair.length; i++)
-            {
-                if (ipsecpair[i] != null) {
-                    String message = ipsecpair[i].toString();
-
-                    JPasswordField p = new JPasswordField(5);
-                    JLabel label  = new JLabel();
-                    label.setText(message);
-                    p.setEchoChar('*');
-
-                    JPanel input = new JPanel();
-                    input.setLayout(new BoxLayout(input, BoxLayout.Y_AXIS));
-                    input.add(new JLabel("Please input current key"));
-                    input.add(Box.createVerticalStrut(25));
-                    input.add(label);
-                    input.add(Box.createVerticalStrut(10));
-                    input.add(p);
-
-                    JOptionPane.showConfirmDialog(null, input, "Login", JOptionPane.DEFAULT_OPTION);
-                    userInput.add(new String(p.getPassword()));
-                }
+                JOptionPane.showConfirmDialog(null, input, "IPsec Key change", JOptionPane.DEFAULT_OPTION);
+                userInput.add(new String(p.getPassword()));
             }
         }
 

@@ -84,6 +84,12 @@
         </dependency>
         <dependency>
             <groupId>net.itransformers</groupId>
+            <artifactId>rightClick</artifactId>
+            <version>0.8</version>
+            <!--Change for new version-->
+        </dependency>
+        <dependency>
+            <groupId>net.itransformers</groupId>
             <artifactId>fulfilmentFactory</artifactId>
             <version>0.8</version>
             <!--Change for new version-->
